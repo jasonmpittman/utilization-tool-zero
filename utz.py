@@ -37,13 +37,3 @@ class utz:
         networks = psutil.net_io_counters(True)
           
         return networks.get(self.__interface)
-
-u = utz()
-
-
-for i in range(1, 10):
-    print(u.cpu())
-
-print(u.ram())
-print(u.disk())
-print(u.net())
