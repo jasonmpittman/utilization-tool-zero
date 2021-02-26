@@ -9,11 +9,19 @@ __email__ = "jpittman@highpoint.edu"
 __status__ = "Research"
 
 import psutil
+import configparser
 
 class utz:
 
+    def __init__(self):
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+
+        self.__interval = config['options']['cpu_interval']
+        self.__interface = config['options']['net_interface']
+
     def cpu(self):
-	    return psutil.cpu_percent(1, True)
+	    return psutil.cpu_percent(float(self.__interval), True)
 
     def ram(self):
         mem = psutil.virtual_memory()
@@ -26,11 +34,16 @@ class utz:
         return (free / 1024 / 1024 / 1024)
 
     def net(self):
-        return psutil.net_io_counters(True)
+        networks = psutil.net_io_counters(True)
+          
+        return networks.get(self.__interface)
 
 u = utz()
 
-#for i in range(10):
-print(u.cpu())
-#print(u.ram())
-#print(u.disk())
+
+for i in range(1, 10):
+    print(u.cpu())
+
+print(u.ram())
+print(u.disk())
+print(u.net())
