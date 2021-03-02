@@ -25,6 +25,7 @@ class utz:
 
         self.__interval = config['options']['cpu_interval']
         self.__interface = config['options']['net_interface']
+        self.__log_file = config['output']['log']
 
     def cpu(self):
         """returns percent utilization on all CPU cores as a tuple"""
@@ -57,6 +58,9 @@ class utz:
         networks = psutil.net_io_counters(True)
           
         return networks.get(self.__interface)
+
+    def log(self):
+        return self.__log_file
 
     def __convertAmount(self, value, amount):
         """private method to convert bytes to specified amount"""
